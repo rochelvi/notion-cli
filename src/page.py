@@ -1,12 +1,15 @@
 import json
 import os
-import sys
 
 NOTES_FILE = "notion_data.json"
 
-def load_notes():
+def ensure_file():
     if not os.path.exists(NOTES_FILE):
-        return {"notes": []}
+        with open(NOTES_FILE, "w", encoding="utf-8") as f:
+            json.dump({"notes": []}, f, ensure_ascii=False, indent=4)
+
+def load_notes():
+    ensure_file()
     with open(NOTES_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -33,7 +36,7 @@ def create_page(title):
         "tags": []
     })
     save_notes(data)
-    print(f"Создана страница '{title}' с ID {new_id}")
+    print(f"Создана страница '{title}' с ID {new_id}.")
 
 def rename_page(key, new_title):
     data = load_notes()
@@ -43,7 +46,7 @@ def rename_page(key, new_title):
         return
     note["title"] = new_title
     save_notes(data)
-    print(f"Страница переименована в '{new_title}'")
+    print(f"Страница переименована в '{new_title}'.")
 
 def remove_page(key):
     data = load_notes()
@@ -61,7 +64,6 @@ def remove_page(key):
     save_notes(data)
     print(f"Страница '{note['title']}' удалена.")
 
-
 def add_data_to_page(key, new_content):
     data = load_notes()
     note = find_note(data, key)
@@ -70,4 +72,28 @@ def add_data_to_page(key, new_content):
         return
     note["content"] += "\n" + new_content
     save_notes(data)
-    print(f"Данные добавлены к странице '{note['title']}'")
+    print(f"Текст добавлен в страницу '{note['title']}'.")
+
+def add_tags_to_page(key, tags_str):
+    data = load_notes()
+    note = find_note(data, key)
+    if not note:
+        print(f"Страница '{key}' не найдена.")
+        return
+    tags = tags_str.strip().split()
+    for tag in tags:
+        if tag not in note["tags"]:
+            note["tags"].append(tag)
+    save_notes(data)
+    print(f"Добавлены теги: {' '.join(tags)}.")
+
+def show_page(key):
+    data = load_notes()
+    note = find_note(data, key)
+    if not note:
+        print(f"Страница '{key}' не найдена.")
+        return
+    print(f"\nСтраница: {note['title']} (ID: {note['id']})")
+    print(f"Теги: {', '.join(note.get('tags', []))}")
+    print("Содержимое:")
+    print(note['content'])
