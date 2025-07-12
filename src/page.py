@@ -70,7 +70,7 @@ def add_data_to_page(key, new_content):
     if not note:
         print(f"Страница '{key}' не найдена.")
         return
-    note["content"] += "\n" + new_content
+    note["content"] += new_content
     save_notes(data)
     print(f"Текст добавлен в страницу '{note['title']}'.")
 
