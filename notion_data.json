@@ -3,7 +3,7 @@
         {
             "id": 1,
             "title": "needed",
-            "content": "what you need to do",
+            "content": "hello world\nis what you need\n",
             "tags": [
                 "needed",
                 "important",

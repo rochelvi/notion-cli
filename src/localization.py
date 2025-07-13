@@ -34,6 +34,7 @@ MESSAGES = {
         "page": "\nСтраница: {title} (ID: {id})",
         "tags_list": "Теги: {tags}",
         "content": "Содержимое:",
+        "edit": "Редактировать содержимое страницы во внешнем редакторе",
     },
     "en": {
         "usage": "Usage: clition <command>",
@@ -62,6 +63,7 @@ MESSAGES = {
         "page": "\nPage: {title} (ID: {id})",
         "tags_list": "Tags: {tags}",
         "content": "Content:",
+        "edit": "Edit page content in external editor",
     }
 }
 

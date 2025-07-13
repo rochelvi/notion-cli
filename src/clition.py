@@ -1,5 +1,5 @@
 import sys
-from page import create_page, rename_page, remove_page, add_data_to_page, add_tags_to_page, show_page
+from page import create_page, rename_page, remove_page, add_data_to_page, add_tags_to_page, show_page, edit_page_content
 from localization import tr
 
 args = sys.argv[1:]
@@ -13,6 +13,7 @@ def print_help():
     print(f"  <title|id> --add <text>      {tr('add')}")
     print(f"  <title|id> --tags <tags...>  {tr('tags')}")
     print(f"  <title|id> --show            {tr('show')}")
+    print(f"  <title|id> --edit            {tr('edit')}")
     print(f"  -h, --help                   {tr('help')}")
 
 if len(args) == 0 or args[0] in ("-h", "--help"):
@@ -44,6 +45,8 @@ elif len(args) >= 2:
         add_tags_to_page(page_id, " ".join(args[2:]))
     elif args[1] == "--show":
         show_page(page_id)
+    elif args[1] == "--edit":
+        edit_page_content(page_id)
     else:
         print(tr("unknown_command"))
         print_help()

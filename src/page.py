@@ -1,5 +1,7 @@
 import json
 import os
+import tempfile
+import subprocess
 from localization import tr
 
 NOTES_FILE = "notion_data.json"
@@ -98,3 +100,22 @@ def show_page(key):
     print(tr("tags", tags=', '.join(note.get('tags', []))))
     print(tr("content"))
     print(note['content'])
+
+def edit_page_content(key):
+    data = load_notes()
+    note = find_note(data, key)
+    if not note:
+        print(tr("not_found", key=key))
+        return
+
+    editor = os.environ.get("EDITOR", "nano")
+    with tempfile.NamedTemporaryFile(mode="w+", delete=False, encoding="utf-8") as tf:
+        tf.write(note["content"])
+        tf.flush()
+        subprocess.call([editor, tf.name])
+        tf.seek(0)
+        new_content = tf.read()
+
+    note["content"] = new_content
+    save_notes(data)
+    print(tr("added_text", title=note["title"]))
