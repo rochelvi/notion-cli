@@ -1,6 +1,7 @@
 import sys
 from page import create_page, rename_page, remove_page, add_data_to_page, add_tags_to_page, show_page, edit_page_content
 from localization import tr
+from search import search_notes
 
 args = sys.argv[1:]
 
@@ -14,6 +15,7 @@ def print_help():
     print(f"  <title|id> --tags <tags...>  {tr('tags')}")
     print(f"  <title|id> --show            {tr('show')}")
     print(f"  <title|id> --edit            {tr('edit')}")
+    print(f"  --search <query>             Поиск по названию, тегам и содержимому")
     print(f"  -h, --help                   {tr('help')}")
 
 if len(args) == 0 or args[0] in ("-h", "--help"):
@@ -36,6 +38,13 @@ elif args[0] in ("--remove",):
         remove_page(args[1])
     else:
         print(tr("no_remove"))
+
+elif args[0] in ("--search",):
+    if len(args) >= 2:
+        search_notes(" ".join(args[1:]))
+    else:
+        print(tr("incomplete"))
+        print_help()
 
 elif len(args) >= 2:
     page_id = args[0]
