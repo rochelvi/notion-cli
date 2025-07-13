@@ -1,18 +1,19 @@
 import sys
 from page import create_page, rename_page, remove_page, add_data_to_page, add_tags_to_page, show_page
+from localization import tr
 
 args = sys.argv[1:]
 
 def print_help():
-    print("Usage: clition <command>")
-    print("Available commands:")
-    print("  --create <title>             Создать страницу")
-    print("  --rename <old> <new>         Переименовать страницу")
-    print("  --remove <title|id>          Удалить страницу")
-    print("  <title|id> --add <text>      Добавить текст в страницу")
-    print("  <title|id> --tags <tags...>  Добавить теги (через пробел)")
-    print("  <title|id> --show            Показать содержимое и теги")
-    print("  -h, --help                   Показать справку")
+    print(tr("usage"))
+    print(tr("available_commands"))
+    print(f"  --create <title>             {tr('create')}")
+    print(f"  --rename <old> <new>         {tr('rename')}")
+    print(f"  --remove <title|id>          {tr('remove')}")
+    print(f"  <title|id> --add <text>      {tr('add')}")
+    print(f"  <title|id> --tags <tags...>  {tr('tags')}")
+    print(f"  <title|id> --show            {tr('show')}")
+    print(f"  -h, --help                   {tr('help')}")
 
 if len(args) == 0 or args[0] in ("-h", "--help"):
     print_help()
@@ -21,19 +22,19 @@ elif args[0] in ("--create",):
     if len(args) >= 2:
         create_page(" ".join(args[1:]))
     else:
-        print("Не указано имя страницы.")
+        print(tr("no_title"))
 
 elif args[0] in ("--rename",):
     if len(args) >= 3:
         rename_page(args[1], " ".join(args[2:]))
     else:
-        print("Нужно указать старое и новое имя.")
+        print(tr("need_old_new"))
 
 elif args[0] in ("--remove",):
     if len(args) >= 2:
         remove_page(args[1])
     else:
-        print("Не указано, какую страницу удалить.")
+        print(tr("no_remove"))
 
 elif len(args) >= 2:
     page_id = args[0]
@@ -44,8 +45,8 @@ elif len(args) >= 2:
     elif args[1] == "--show":
         show_page(page_id)
     else:
-        print("Неизвестная команда или недостающие аргументы.")
+        print(tr("unknown_command"))
         print_help()
 else:
-    print("Неполная команда.")
+    print(tr("incomplete"))
     print_help()

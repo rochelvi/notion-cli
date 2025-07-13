@@ -1,5 +1,6 @@
 import json
 import os
+from localization import tr
 
 NOTES_FILE = "notion_data.json"
 
@@ -26,7 +27,7 @@ def find_note(data, key):
 def create_page(title):
     data = load_notes()
     if any(note["title"].lower() == title.lower() for note in data["notes"]):
-        print(f"Страница с названием '{title}' уже существует.")
+        print(tr("already_exists", title=title))
         return
     new_id = max([note["id"] for note in data["notes"]], default=0) + 1
     data["notes"].append({
@@ -36,64 +37,64 @@ def create_page(title):
         "tags": []
     })
     save_notes(data)
-    print(f"Создана страница '{title}' с ID {new_id}.")
+    print(tr("created", title=title, id=new_id))
 
 def rename_page(key, new_title):
     data = load_notes()
     note = find_note(data, key)
     if not note:
-        print(f"Страница '{key}' не найдена.")
+        print(tr("not_found", key=key))
         return
     note["title"] = new_title
     save_notes(data)
-    print(f"Страница переименована в '{new_title}'.")
+    print(tr("renamed", new_title=new_title))
 
 def remove_page(key):
     data = load_notes()
     note = find_note(data, key)
     if not note:
-        print(f"Страница '{key}' не найдена.")
+        print(tr("not_found", key=key))
         return
 
-    confirm = input(f"Вы действительно хотите удалить страницу '{note['title']}' (ID: {note['id']})? [y/N]: ").strip().lower()
+    confirm = input(tr("confirm_remove", title=note["title"], id=note["id"])).strip().lower()
     if confirm != 'y':
         print("Удаление отменено.")
         return
 
     data["notes"] = [n for n in data["notes"] if n != note]
     save_notes(data)
-    print(f"Страница '{note['title']}' удалена.")
+    print(tr("removed", title=note["title"]))
 
 def add_data_to_page(key, new_content):
     data = load_notes()
     note = find_note(data, key)
     if not note:
-        print(f"Страница '{key}' не найдена.")
+        print(tr("not_found", key=key))
         return
     note["content"] += new_content
     save_notes(data)
-    print(f"Текст добавлен в страницу '{note['title']}'.")
+    print(tr("added_text", title=note["title"]))
 
 def add_tags_to_page(key, tags_str):
     data = load_notes()
     note = find_note(data, key)
     if not note:
-        print(f"Страница '{key}' не найдена.")
+        print(tr("not_found", key=key))
         return
     tags = tags_str.strip().split()
     for tag in tags:
         if tag not in note["tags"]:
             note["tags"].append(tag)
     save_notes(data)
-    print(f"Добавлены теги: {' '.join(tags)}.")
+    print(tr("added_tags", tags=' '.join(tags)))
 
 def show_page(key):
     data = load_notes()
     note = find_note(data, key)
     if not note:
-        print(f"Страница '{key}' не найдена.")
+        print(tr("not_found", key=key))
         return
-    print(f"\nСтраница: {note['title']} (ID: {note['id']})")
-    print(f"Теги: {', '.join(note.get('tags', []))}")
-    print("Содержимое:")
+    print(tr("page", title=note["title"], id=note["id"]))
+    print(tr("tags", tags=', '.join(note.get('tags', []))))
+    print(tr("content"))
     print(note['content'])

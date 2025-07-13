@@ -2,12 +2,13 @@
     "notes": [
         {
             "id": 1,
-            "title": "New_note",
-            "content": "context with minds",
+            "title": "needed",
+            "content": "what you need to do",
             "tags": [
+                "needed",
+                "important",
                 "new",
-                "old",
-                "fan"
+                "unknown"
             ]
         }
     ]
