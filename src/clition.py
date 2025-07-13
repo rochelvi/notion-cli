@@ -15,7 +15,8 @@ def print_help():
     print(f"  <title|id> --tags <tags...>  {tr('tags')}")
     print(f"  <title|id> --show            {tr('show')}")
     print(f"  <title|id> --edit            {tr('edit')}")
-    print(f"  --search <query>             Поиск по названию, тегам и содержимому")
+    print(f"  --search <query>             {tr('search')}")
+    print(f"  --all                        {tr('show_all')}")
     print(f"  -h, --help                   {tr('help')}")
 
 if len(args) == 0 or args[0] in ("-h", "--help"):
@@ -38,6 +39,11 @@ elif args[0] in ("--remove",):
         remove_page(args[1])
     else:
         print(tr("no_remove"))
+
+elif args[0] in ("--all",):
+    # Показывает все заметки (эквивалент поиска по "*")
+    from search import search_notes
+    search_notes("*")
 
 elif args[0] in ("--search",):
     if len(args) >= 2:
