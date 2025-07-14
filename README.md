@@ -1,6 +1,6 @@
 # notion-cli
 
-**notion-cli** is a simple command-line note manager with tags, search, and localization (English/Russian). All data is stored locally in `~/.local/share/notion_data.json`.
+**notion-cli** or **clition** is a simple command-line note manager with tags, search, and localization (English/Russian). All data is stored locally in `~/.local/share/notion_data.json`.
 
 ## Features
 
@@ -80,12 +80,13 @@ The interface language is automatically detected from the `LANG` environment var
 ## Dependencies
 
 - Python 3.x
-- [pyinstaller](https://pypi.org/project/pyinstaller/) (for building)
-
-## License
-
-MIT
+- [pyinstaller](https://pypi.org/project/pyinstaller/) (for building, installs automatically in isolated environment) 
 
 ---
+
+## Contributing
+
+You can create pull request in this project
+
 
 **This project is designed for local note management and does not require nor communicate with any external servers.**
