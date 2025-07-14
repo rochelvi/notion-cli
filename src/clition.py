@@ -1,44 +1,70 @@
 import sys
-from page import create_page, rename_page, remove_page, add_data_to_page
+from page import create_page, rename_page, remove_page, add_data_to_page, add_tags_to_page, show_page, edit_page_content
+from localization import tr
+from search import search_notes
 
 args = sys.argv[1:]
 
 def print_help():
-    print("Usage: clition <command>\n"
-          "Available commands:\n"
-          "  page -c|--create <title>         Создать страницу\n"
-          "  page -rn|--rename <old> <new>    Переименовать страницу по названию или ID\n"
-          "  page -rm|--remove <title|id>     Удалить страницу\n"
-          "  page <title|id> -add <content>   Добавить данные к странице\n"
-          "  -h, --help                       Показать это сообщение")
+    print(tr("usage"))
+    print(tr("available_commands"))
+    print(f"  --create <title>             {tr('create')}")
+    print(f"  --rename <old> <new>         {tr('rename')}")
+    print(f"  --remove <title|id>          {tr('remove')}")
+    print(f"  <title|id> --add <text>      {tr('add')}")
+    print(f"  <title|id> --tags <tags...>  {tr('tags')}")
+    print(f"  <title|id> --show            {tr('show')}")
+    print(f"  <title|id> --edit            {tr('edit')}")
+    print(f"  --search <query>             {tr('search')}")
+    print(f"  --all                        {tr('show_all')}")
+    print(f"  -h, --help                   {tr('help')}")
 
 if len(args) == 0 or args[0] in ("-h", "--help"):
     print_help()
 
-elif args[0] == "page":
-    if len(args) < 2:
-        print("Не указано действие для page.")
-        print_help()
-    elif args[1] in ("-c", "--create"):
-        if len(args) >= 3:
-            create_page(" ".join(args[2:]))
-        else:
-            print("Не указано имя страницы.")
-    elif args[1] in ("-rn", "--rename"):
-        if len(args) >= 4:
-            rename_page(args[2], " ".join(args[3:]))
-        else:
-            print("Нужно указать старое и новое имя.")
-    elif args[1] in ("-rm", "--remove"):
-        if len(args) >= 3:
-            remove_page(args[2])
-        else:
-            print("Не указано, какую страницу удалить.")
-    elif len(args) >= 4 and args[2] == "-add":
-        add_data_to_page(args[1], " ".join(args[3:]))
+elif args[0] in ("--create",):
+    if len(args) >= 2:
+        create_page(" ".join(args[1:]))
     else:
-        print("Неверный формат команды.")
+        print(tr("no_title"))
+
+elif args[0] in ("--rename",):
+    if len(args) >= 3:
+        rename_page(args[1], " ".join(args[2:]))
+    else:
+        print(tr("need_old_new"))
+
+elif args[0] in ("--remove",):
+    if len(args) >= 2:
+        remove_page(args[1])
+    else:
+        print(tr("no_remove"))
+
+elif args[0] in ("--all",):
+    # Показывает все заметки (эквивалент поиска по "*")
+    from search import search_notes
+    search_notes("*")
+
+elif args[0] in ("--search",):
+    if len(args) >= 2:
+        search_notes(" ".join(args[1:]))
+    else:
+        print(tr("incomplete"))
+        print_help()
+
+elif len(args) >= 2:
+    page_id = args[0]
+    if args[1] == "--add" and len(args) >= 3:
+        add_data_to_page(page_id, " ".join(args[2:]))
+    elif args[1] == "--tags" and len(args) >= 3:
+        add_tags_to_page(page_id, " ".join(args[2:]))
+    elif args[1] == "--show":
+        show_page(page_id)
+    elif args[1] == "--edit":
+        edit_page_content(page_id)
+    else:
+        print(tr("unknown_command"))
         print_help()
 else:
-    print(f"Неизвестная команда: {args[0]}")
+    print(tr("incomplete"))
     print_help()
