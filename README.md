@@ -1,6 +1,6 @@
 # notion-cli
 
-**notion-cli** or **clition** is a simple command-line note manager with tags, search, and localization (English/Russian). All data is stored locally in `~/.local/share/notion_data.json`.
+**notion-cli** or **clition** is a simple command-line note manager with tags, search, and localization (English/Russian). All data is stored locally in `~/.local/share/clition/clition_data.json`.
 
 ## Features
 
@@ -90,3 +90,6 @@ You can create pull request in this project
 
 
 **This project is designed for local note management and does not require nor communicate with any external servers.**
+
+### What about creating installation packages?
+I will work on this!
