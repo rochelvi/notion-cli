@@ -79,7 +79,7 @@ The interface language is automatically detected from the `LANG` environment var
 
 ## Dependencies
 
-- Python 3.x
+- Python 3.x (mavbe you will need python3-venv to create isolated env)
 - [pyinstaller](https://pypi.org/project/pyinstaller/) (for building, installs automatically in isolated environment) 
 
 ---
