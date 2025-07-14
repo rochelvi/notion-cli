@@ -4,12 +4,13 @@ import tempfile
 import subprocess
 from localization import tr
 
-NOTES_FILE = "notion_data.json"
+NOTES_FILE = os.path.expanduser("~/.local/share/clition/clition_data.json")
 
 def ensure_file():
     if not os.path.exists(NOTES_FILE):
+        os.makedirs(os.path.dirname(NOTES_FILE), exist_ok=True)
         with open(NOTES_FILE, "w", encoding="utf-8") as f:
-            json.dump({"notes": []}, f, ensure_ascii=False, indent=4)
+            f.write('{"notes": []}')
 
 def load_notes():
     ensure_file()
